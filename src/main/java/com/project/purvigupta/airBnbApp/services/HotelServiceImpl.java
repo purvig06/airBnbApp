@@ -5,6 +5,7 @@ import com.project.purvigupta.airBnbApp.entity.Hotel;
 import com.project.purvigupta.airBnbApp.entity.Room;
 import com.project.purvigupta.airBnbApp.exception.ResourceNotFoundException;
 import com.project.purvigupta.airBnbApp.repository.HotelRepository;
+import com.project.purvigupta.airBnbApp.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ public class HotelServiceImpl implements HotelService{
     private final HotelRepository hotelRepository;
     private final ModelMapper modelMapper;
     private final InventoryService inventoryService;
+    private final RoomRepository roomRepository;
     @Override
     public HotelDto createNewHotel(HotelDto hotelDto) {
         log.info("creating a new hotel with name :{}" , hotelDto.getName());
@@ -61,9 +63,11 @@ public class HotelServiceImpl implements HotelService{
                 .orElseThrow(() -> new ResourceNotFoundException("Hotel not found with this id " + id));
         hotelRepository.deleteById(id);
         for(Room room : hotel.getRooms()){
-            inventoryService.deleteFutureInventory(room);
-        }
 
+            inventoryService.deleteAllInventory(room);
+            roomRepository.deleteById(room.getId());
+        }
+        hotelRepository.deleteById(id);
 
 
 
