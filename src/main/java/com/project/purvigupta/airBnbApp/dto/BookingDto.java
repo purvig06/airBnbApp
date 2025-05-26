@@ -6,6 +6,7 @@ import com.project.purvigupta.airBnbApp.entity.Hotel;
 import com.project.purvigupta.airBnbApp.entity.Room;
 import com.project.purvigupta.airBnbApp.entity.User;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Data
 public class BookingDto {
 
 
@@ -20,13 +22,7 @@ public class BookingDto {
 
 
 
-    private Hotel hotel;
 
-
-    private Room room;
-
-
-    private User user;
 
     private Integer roomsCount;
 
